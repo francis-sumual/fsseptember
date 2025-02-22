@@ -1,0 +1,72 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  name      String
+  email     String   @unique
+  password  String
+  role      String   @default("USER")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Group {
+  id            Int            @id @default(autoincrement())
+  name          String
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  members       Member[]
+  registrations Registration[]
+}
+
+model Member {
+  id            Int            @id @default(autoincrement())
+  name          String
+  contact       String
+  groupId       Int
+  group         Group          @relation(fields: [groupId], references: [id])
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  registrations Registration[]
+}
+
+model Gathering {
+  id            Int            @id @default(autoincrement())
+  name          String
+  date          DateTime
+  location      String
+  description   String?
+  capacity      Int
+  status        GatheringStatus @default(ACTIVE)
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  registrations Registration[]
+}
+
+model Registration {
+  id          Int       @id @default(autoincrement())
+  memberId    Int
+  member      Member    @relation(fields: [memberId], references: [id])
+  gatheringId Int
+  gathering   Gathering @relation(fields: [gatheringId], references: [id])
+  groupId     Int
+  group       Group     @relation(fields: [groupId], references: [id])
+  status      String    @default("PENDING") // PENDING, CONFIRMED, CANCELLED
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@unique([memberId, gatheringId])
+}
+
+enum GatheringStatus {
+  ACTIVE
+  NOT_ACTIVE
+}
+
