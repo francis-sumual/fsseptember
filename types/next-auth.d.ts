@@ -16,17 +16,16 @@ export declare module "next-auth" {
     } & DefaultSession["user"];
   }
   interface User {
-    
-      id: string;
-      name: string;
-      email: string;
-      role: string;
-    
+    id: string;
+    name: string;
+    email: string;
+    role: string;
+  }
 }
 
 // Read more at: https://next-auth.js.org/getting-started/typescript#module-augmentation
 
-declare module "next-auth/jwt" {
+export declare module "next-auth/jwt" {
   interface JWT {
     /** The user's role. */
     id: string;
