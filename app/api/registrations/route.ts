@@ -1,5 +1,5 @@
-import { NextResponse } from "next/server"
-import { prisma } from "@/lib/prisma"
+import { NextResponse } from "next/server";
+import { prisma } from "@/lib/prisma";
 
 export async function GET() {
   try {
@@ -9,18 +9,18 @@ export async function GET() {
         gathering: true,
         group: true,
       },
-    })
+    });
     // Ensure we always return an array
-    return NextResponse.json(Array.isArray(registrations) ? registrations : [])
+    return NextResponse.json(Array.isArray(registrations) ? registrations : []);
   } catch (error) {
-    console.error("Error fetching registrations:", error)
-    return NextResponse.json({ error: "Error fetching registrations" }, { status: 500 })
+    console.error("Error fetching registrations:", error);
+    return NextResponse.json({ error: "Error fetching registrations" }, { status: 500 });
   }
 }
 
 export async function POST(request: Request) {
   try {
-    const body = await request.json()
+    const body = await request.json();
 
     // Check if registration already exists
     const existingRegistration = await prisma.registration.findUnique({
@@ -30,10 +30,10 @@ export async function POST(request: Request) {
           gatheringId: body.gatheringId,
         },
       },
-    })
+    });
 
     if (existingRegistration) {
-      return NextResponse.json({ error: "Member is already registered for this gathering" }, { status: 400 })
+      return NextResponse.json({ error: "Member is already registered for this gathering" }, { status: 400 });
     }
 
     const registration = await prisma.registration.create({
@@ -48,17 +48,18 @@ export async function POST(request: Request) {
         gathering: true,
         group: true,
       },
-    })
+    });
 
-    return NextResponse.json(registration)
+    return NextResponse.json(registration);
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (error) {
-    return NextResponse.json({ error: "Error creating registration" }, { status: 500 })
+    return NextResponse.json({ error: "Error creating registration" }, { status: 500 });
   }
 }
 
 export async function PUT(request: Request) {
   try {
-    const body = await request.json()
+    const body = await request.json();
     const registration = await prisma.registration.update({
       where: { id: body.id },
       data: {
@@ -69,23 +70,24 @@ export async function PUT(request: Request) {
         gathering: true,
         group: true,
       },
-    })
-    return NextResponse.json(registration)
+    });
+    return NextResponse.json(registration);
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (error) {
-    return NextResponse.json({ error: "Error updating registration" }, { status: 500 })
+    return NextResponse.json({ error: "Error updating registration" }, { status: 500 });
   }
 }
 
 export async function DELETE(request: Request) {
   try {
-    const { searchParams } = new URL(request.url)
-    const id = searchParams.get("id")
+    const { searchParams } = new URL(request.url);
+    const id = searchParams.get("id");
     await prisma.registration.delete({
       where: { id: Number(id) },
-    })
-    return NextResponse.json({ success: true })
+    });
+    return NextResponse.json({ success: true });
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (error) {
-    return NextResponse.json({ error: "Error deleting registration" }, { status: 500 })
+    return NextResponse.json({ error: "Error deleting registration" }, { status: 500 });
   }
 }
-

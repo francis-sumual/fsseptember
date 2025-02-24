@@ -45,62 +45,6 @@ export function AboutSection() {
             </p>
           </div>
         </div>
-
-        <div className="mt-16 grid md:grid-cols-2 gap-8 items-center">
-          <div className="space-y-4">
-            <h3 className="text-2xl font-bold tracking-tight">Why Choose Our Platform?</h3>
-            <ul className="space-y-3">
-              <li className="flex items-center gap-3">
-                <div className="size-6 rounded-full bg-primary/10 flex items-center justify-center">
-                  <div className="size-2 rounded-full bg-primary" />
-                </div>
-                <span>Real-time registration tracking and updates</span>
-              </li>
-              <li className="flex items-center gap-3">
-                <div className="size-6 rounded-full bg-primary/10 flex items-center justify-center">
-                  <div className="size-2 rounded-full bg-primary" />
-                </div>
-                <span>Efficient group-based organization</span>
-              </li>
-              <li className="flex items-center gap-3">
-                <div className="size-6 rounded-full bg-primary/10 flex items-center justify-center">
-                  <div className="size-2 rounded-full bg-primary" />
-                </div>
-                <span>Automated capacity management</span>
-              </li>
-              <li className="flex items-center gap-3">
-                <div className="size-6 rounded-full bg-primary/10 flex items-center justify-center">
-                  <div className="size-2 rounded-full bg-primary" />
-                </div>
-                <span>Comprehensive registration statistics</span>
-              </li>
-            </ul>
-          </div>
-
-          <div className="bg-muted rounded-xl p-8">
-            <div className="space-y-4">
-              <h4 className="text-xl font-semibold">Platform Statistics</h4>
-              <div className="grid grid-cols-2 gap-4">
-                <div className="bg-background rounded-lg p-4">
-                  <p className="text-3xl font-bold text-primary">1000+</p>
-                  <p className="text-sm text-muted-foreground">Active Members</p>
-                </div>
-                <div className="bg-background rounded-lg p-4">
-                  <p className="text-3xl font-bold text-primary">500+</p>
-                  <p className="text-sm text-muted-foreground">Events Managed</p>
-                </div>
-                <div className="bg-background rounded-lg p-4">
-                  <p className="text-3xl font-bold text-primary">50+</p>
-                  <p className="text-sm text-muted-foreground">Active Groups</p>
-                </div>
-                <div className="bg-background rounded-lg p-4">
-                  <p className="text-3xl font-bold text-primary">98%</p>
-                  <p className="text-sm text-muted-foreground">Satisfaction Rate</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
     </section>
   );

@@ -37,7 +37,7 @@ export function FloatingNavbar() {
         <div className="flex h-16 items-center justify-between">
           <Link href="/" className="flex items-center space-x-2">
             <Calendar className="h-6 w-6" />
-            <span className="text-lg font-bold">EventHub</span>
+            <span className="text-lg font-bold">AILilyHalim</span>
           </Link>
 
           {/* Desktop Navigation */}

@@ -75,6 +75,7 @@ export function GatheringRegistrationList() {
     return () => {
       window.removeEventListener("registration-updated", handleRegistrationUpdate);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const calculateSummary = (grouped: GroupedRegistrations): RegistrationSummary => {
@@ -200,8 +201,8 @@ export function GatheringRegistrationList() {
     <section id="list" className="py-24 bg-muted/50">
       <div className="container px-4 mx-auto">
         <div className="text-center max-w-3xl mx-auto mb-16">
-          <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">Group Registrations</h2>
-          <p className="mt-4 text-lg text-muted-foreground">View all gathering registrations organized by group.</p>
+          <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">Registrations List</h2>
+          <p className="mt-4 text-lg text-muted-foreground">Pastikan nama anda ada dalam list ini.</p>
         </div>
 
         {/* Registration Summary */}
@@ -212,7 +213,7 @@ export function GatheringRegistrationList() {
               <CardDescription>Total Registrations: {summary.totalRegistrations}</CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+              <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
                 {Object.entries(summary.groupSummaries).map(([groupId, stats]) => (
                   <div key={groupId} className="space-y-2">
                     <h4 className="font-semibold">{registrations[groupId].groupName}</h4>
@@ -242,7 +243,7 @@ export function GatheringRegistrationList() {
 
             return (
               <div key={groupId} className="space-y-6">
-                <div className="flex items-center justify-between">
+                <div className="flex items-center justify-between flex-col">
                   <h3 className="text-2xl font-bold tracking-tight">{group.groupName}</h3>
                   <div className="flex items-center gap-4">
                     <Badge variant="outline" className="text-sm">
@@ -259,44 +260,47 @@ export function GatheringRegistrationList() {
                     </Badge>
                   </div>
                 </div>
-                <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-                  {gatheringIds.map((gatheringId) => {
-                    const gathering = group.gatherings[gatheringId];
-                    return (
-                      <Card key={gatheringId}>
-                        <CardHeader>
-                          <CardTitle>{gathering.gatheringName}</CardTitle>
-                          <CardDescription>{format(new Date(gathering.date), "PPp")}</CardDescription>
-                        </CardHeader>
-                        <CardContent>
-                          <div className="space-y-4">
-                            {gathering.registrations.map((registration) => (
-                              <div
-                                key={registration.id}
-                                className="flex items-start justify-between gap-4 rounded-lg border p-4"
-                              >
-                                <div className="space-y-1">
-                                  <p className="font-medium leading-none">{registration.member.name}</p>
-                                  <p className="text-sm text-muted-foreground">{registration.member.contact}</p>
-                                </div>
-                                <Badge
-                                  variant={
-                                    registration.status === "CONFIRMED"
-                                      ? "default"
-                                      : registration.status === "PENDING"
-                                      ? "secondary"
-                                      : "destructive"
-                                  }
+                <div className="grid gap-8 md:grid-cols-1 lg:grid-cols-4">
+                  <div className="col-span-2 col-start-2">
+                    {gatheringIds.map((gatheringId) => {
+                      const gathering = group.gatherings[gatheringId];
+                      return (
+                        <Card key={gatheringId}>
+                          <CardHeader>
+                            <CardTitle>{gathering.gatheringName}</CardTitle>
+                            <CardDescription>{format(new Date(gathering.date), "PPp")}</CardDescription>
+                            <p>List Berdasarkan Abjad</p>
+                          </CardHeader>
+                          <CardContent>
+                            <div className="space-y-4">
+                              {gathering.registrations.map((registration) => (
+                                <div
+                                  key={registration.id}
+                                  className="flex items-start justify-between gap-4 rounded-lg border p-4"
                                 >
-                                  {registration.status}
-                                </Badge>
-                              </div>
-                            ))}
-                          </div>
-                        </CardContent>
-                      </Card>
-                    );
-                  })}
+                                  <div className="space-y-1">
+                                    <p className="font-medium leading-none">{registration.member.name}</p>
+                                    <p className="text-sm text-muted-foreground">{registration.member.contact}</p>
+                                  </div>
+                                  <Badge
+                                    variant={
+                                      registration.status === "CONFIRMED"
+                                        ? "default"
+                                        : registration.status === "PENDING"
+                                        ? "secondary"
+                                        : "destructive"
+                                    }
+                                  >
+                                    {registration.status}
+                                  </Badge>
+                                </div>
+                              ))}
+                            </div>
+                          </CardContent>
+                        </Card>
+                      );
+                    })}
+                  </div>
                 </div>
               </div>
             );

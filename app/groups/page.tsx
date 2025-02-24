@@ -1,32 +1,33 @@
-"use client"
+/* eslint-disable react/jsx-key */
+"use client";
 
-import { useState } from "react"
-import { useTable, usePagination } from "react-table"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
-import { Label } from "@/components/ui/label"
-import { useForm } from "react-hook-form"
+import { useState } from "react";
+import { useTable, usePagination } from "react-table";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Label } from "@/components/ui/label";
+import { useForm } from "react-hook-form";
 
 type Group = {
-  id: number
-  name: string
-}
+  id: number;
+  name: string;
+};
 
 const initialGroups: Group[] = [
   { id: 1, name: "Group A" },
   { id: 2, name: "Group B" },
   { id: 3, name: "Group C" },
   // Add more sample data as needed
-]
+];
 
 export default function GroupsPage() {
-  const [groups, setGroups] = useState<Group[]>(initialGroups)
-  const [isOpen, setIsOpen] = useState(false)
-  const [editingGroup, setEditingGroup] = useState<Group | null>(null)
+  const [groups, setGroups] = useState<Group[]>(initialGroups);
+  const [isOpen, setIsOpen] = useState(false);
+  const [editingGroup, setEditingGroup] = useState<Group | null>(null);
 
-  const { register, handleSubmit, reset } = useForm<Group>()
+  const { register, handleSubmit, reset } = useForm<Group>();
 
   const columns = [
     {
@@ -48,7 +49,7 @@ export default function GroupsPage() {
         </div>
       ),
     },
-  ]
+  ];
 
   const {
     getTableProps,
@@ -71,29 +72,29 @@ export default function GroupsPage() {
       data: groups,
       initialState: { pageIndex: 0, pageSize: 5 },
     },
-    usePagination,
-  )
+    usePagination
+  );
 
   const onSubmit = (data: Group) => {
     if (editingGroup) {
-      setGroups(groups.map((g) => (g.id === editingGroup.id ? { ...g, ...data } : g)))
+      setGroups(groups.map((g) => (g.id === editingGroup.id ? { ...g, ...data } : g)));
     } else {
-      setGroups([...groups, { ...data, id: Math.max(...groups.map((g) => g.id)) + 1 }])
+      setGroups([...groups, { ...data, id: Math.max(...groups.map((g) => g.id)) + 1 }]);
     }
-    setIsOpen(false)
-    reset()
-    setEditingGroup(null)
-  }
+    setIsOpen(false);
+    reset();
+    setEditingGroup(null);
+  };
 
   const handleEdit = (group: Group) => {
-    setEditingGroup(group)
-    setIsOpen(true)
-    reset(group) // Populate the form with the group's data
-  }
+    setEditingGroup(group);
+    setIsOpen(true);
+    reset(group); // Populate the form with the group's data
+  };
 
   const handleDelete = (id: number) => {
-    setGroups(groups.filter((g) => g.id !== id))
-  }
+    setGroups(groups.filter((g) => g.id !== id));
+  };
 
   return (
     <div className="space-y-4">
@@ -103,8 +104,8 @@ export default function GroupsPage() {
           <DialogTrigger asChild>
             <Button
               onClick={() => {
-                setEditingGroup(null)
-                reset()
+                setEditingGroup(null);
+                reset();
               }}
             >
               Add Group
@@ -137,7 +138,7 @@ export default function GroupsPage() {
         </TableHeader>
         <TableBody {...getTableBodyProps()}>
           {page.map((row) => {
-            prepareRow(row)
+            prepareRow(row);
             return (
               <TableRow key={row.id} {...row.getRowProps()}>
                 {row.cells.map((cell) => (
@@ -146,7 +147,7 @@ export default function GroupsPage() {
                   </TableCell>
                 ))}
               </TableRow>
-            )
+            );
           })}
         </TableBody>
       </Table>
@@ -175,7 +176,7 @@ export default function GroupsPage() {
         <select
           value={pageSize}
           onChange={(e) => {
-            setPageSize(Number(e.target.value))
+            setPageSize(Number(e.target.value));
           }}
           className="border rounded p-1"
         >
@@ -187,6 +188,5 @@ export default function GroupsPage() {
         </select>
       </div>
     </div>
-  )
+  );
 }
-

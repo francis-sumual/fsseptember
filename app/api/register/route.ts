@@ -1,24 +1,25 @@
-import { NextResponse } from "next/server"
-import { prisma } from "@/lib/prisma"
-import bcrypt from "bcrypt"
+import { NextResponse } from "next/server";
+import { prisma } from "@/lib/prisma";
+import bcrypt from "bcrypt";
 
 export async function POST(request: Request) {
   try {
-    const { name, email, password } = await request.json()
+    const { name, email, password } = await request.json();
 
     // Check if user already exists
     const existingUser = await prisma.user.findUnique({
       where: { email },
-    })
+    });
 
     if (existingUser) {
-      return NextResponse.json({ error: "User already exists" }, { status: 400 })
+      return NextResponse.json({ error: "User already exists" }, { status: 400 });
     }
 
     // Hash the password
-    const hashedPassword = await bcrypt.hash(password, 10)
+    const hashedPassword = await bcrypt.hash(password, 10);
 
     // Create the user
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const user = await prisma.user.create({
       data: {
         name,
@@ -26,12 +27,11 @@ export async function POST(request: Request) {
         password: hashedPassword,
         role: "USER", // Default role
       },
-    })
+    });
 
-    return NextResponse.json({ message: "User created successfully" }, { status: 201 })
+    return NextResponse.json({ message: "User created successfully" }, { status: 201 });
   } catch (error) {
-    console.error("Registration error:", error)
-    return NextResponse.json({ error: "An error occurred during registration" }, { status: 500 })
+    console.error("Registration error:", error);
+    return NextResponse.json({ error: "An error occurred during registration" }, { status: 500 });
   }
 }
-

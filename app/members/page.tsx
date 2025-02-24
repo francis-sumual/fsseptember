@@ -1,47 +1,48 @@
-"use client"
+/* eslint-disable react/jsx-key */
+"use client";
 
-import { useState } from "react"
-import { useTable, usePagination } from "react-table"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
-import { Label } from "@/components/ui/label"
-import { useForm } from "react-hook-form"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { useState } from "react";
+import { useTable, usePagination } from "react-table";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Label } from "@/components/ui/label";
+import { useForm } from "react-hook-form";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 type Member = {
-  id: number
-  name: string
-  email: string
-  groupId: number
-}
+  id: number;
+  name: string;
+  email: string;
+  groupId: number;
+};
 
 type Group = {
-  id: number
-  name: string
-}
+  id: number;
+  name: string;
+};
 
 const initialMembers: Member[] = [
   { id: 1, name: "John Doe", email: "john@example.com", groupId: 1 },
   { id: 2, name: "Jane Smith", email: "jane@example.com", groupId: 2 },
   // Add more sample data as needed
-]
+];
 
 const initialGroups: Group[] = [
   { id: 1, name: "Group A" },
   { id: 2, name: "Group B" },
   { id: 3, name: "Group C" },
   // Add more sample data as needed
-]
+];
 
 export default function MembersPage() {
-  const [members, setMembers] = useState<Member[]>(initialMembers)
-  const [groups] = useState<Group[]>(initialGroups)
-  const [isOpen, setIsOpen] = useState(false)
-  const [editingMember, setEditingMember] = useState<Member | null>(null)
+  const [members, setMembers] = useState<Member[]>(initialMembers);
+  const [groups] = useState<Group[]>(initialGroups);
+  const [isOpen, setIsOpen] = useState(false);
+  const [editingMember, setEditingMember] = useState<Member | null>(null);
 
-  const { register, handleSubmit, reset, setValue } = useForm<Member>()
+  const { register, handleSubmit, reset, setValue } = useForm<Member>();
 
   const columns = [
     {
@@ -72,7 +73,7 @@ export default function MembersPage() {
         </div>
       ),
     },
-  ]
+  ];
 
   const {
     getTableProps,
@@ -95,31 +96,31 @@ export default function MembersPage() {
       data: members,
       initialState: { pageIndex: 0, pageSize: 5 },
     },
-    usePagination,
-  )
+    usePagination
+  );
 
   const onSubmit = (data: Member) => {
     if (editingMember) {
-      setMembers(members.map((m) => (m.id === editingMember.id ? { ...m, ...data } : m)))
+      setMembers(members.map((m) => (m.id === editingMember.id ? { ...m, ...data } : m)));
     } else {
-      setMembers([...members, { ...data, id: Math.max(...members.map((m) => m.id)) + 1 }])
+      setMembers([...members, { ...data, id: Math.max(...members.map((m) => m.id)) + 1 }]);
     }
-    setIsOpen(false)
-    reset()
-    setEditingMember(null)
-  }
+    setIsOpen(false);
+    reset();
+    setEditingMember(null);
+  };
 
   const handleEdit = (member: Member) => {
-    setEditingMember(member)
-    setIsOpen(true)
-    setValue("name", member.name)
-    setValue("email", member.email)
-    setValue("groupId", member.groupId)
-  }
+    setEditingMember(member);
+    setIsOpen(true);
+    setValue("name", member.name);
+    setValue("email", member.email);
+    setValue("groupId", member.groupId);
+  };
 
   const handleDelete = (id: number) => {
-    setMembers(members.filter((m) => m.id !== id))
-  }
+    setMembers(members.filter((m) => m.id !== id));
+  };
 
   return (
     <div className="space-y-4">
@@ -129,8 +130,8 @@ export default function MembersPage() {
           <DialogTrigger asChild>
             <Button
               onClick={() => {
-                setEditingMember(null)
-                reset()
+                setEditingMember(null);
+                reset();
               }}
             >
               Add Member
@@ -182,14 +183,14 @@ export default function MembersPage() {
         </TableHeader>
         <TableBody {...getTableBodyProps()}>
           {page.map((row) => {
-            prepareRow(row)
+            prepareRow(row);
             return (
               <TableRow {...row.getRowProps()}>
                 {row.cells.map((cell) => (
                   <TableCell {...cell.getCellProps()}>{cell.render("Cell")}</TableCell>
                 ))}
               </TableRow>
-            )
+            );
           })}
         </TableBody>
       </Table>
@@ -218,7 +219,7 @@ export default function MembersPage() {
         <select
           value={pageSize}
           onChange={(e) => {
-            setPageSize(Number(e.target.value))
+            setPageSize(Number(e.target.value));
           }}
           className="border rounded p-1"
         >
@@ -230,6 +231,5 @@ export default function MembersPage() {
         </select>
       </div>
     </div>
-  )
+  );
 }
-

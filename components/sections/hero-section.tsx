@@ -4,7 +4,7 @@ import { Calendar, Users, CheckCircle } from "lucide-react";
 
 export function HeroSection() {
   return (
-    <section className="relative pt-32 pb-24 lg:pt-48 lg:pb-32 bg-gradient-to-b from-primary/5 to-background">
+    <section id="home" className="relative pt-32 pb-24 lg:pt-48 lg:pb-32 bg-gradient-to-b from-primary/5 to-background">
       <div className="container px-4 mx-auto">
         <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-24">
           <div className="flex-1 text-center lg:text-left">

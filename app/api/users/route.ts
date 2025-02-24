@@ -1,6 +1,7 @@
-import { NextResponse } from "next/server"
-import { prisma } from "@/lib/prisma"
-import bcrypt from "bcrypt"
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import { NextResponse } from "next/server";
+import { prisma } from "@/lib/prisma";
+import bcrypt from "bcrypt";
 
 export async function GET() {
   try {
@@ -11,28 +12,28 @@ export async function GET() {
         email: true,
         role: true,
       },
-    })
-    return NextResponse.json(users)
+    });
+    return NextResponse.json(users);
   } catch (error) {
-    return NextResponse.json({ error: "Error fetching users" }, { status: 500 })
+    return NextResponse.json({ error: "Error fetching users" }, { status: 500 });
   }
 }
 
 export async function POST(request: Request) {
   try {
-    const body = await request.json()
+    const body = await request.json();
 
     // Check if user already exists
     const existingUser = await prisma.user.findUnique({
       where: { email: body.email },
-    })
+    });
 
     if (existingUser) {
-      return NextResponse.json({ error: "User with this email already exists" }, { status: 400 })
+      return NextResponse.json({ error: "User with this email already exists" }, { status: 400 });
     }
 
     // Hash the password
-    const hashedPassword = await bcrypt.hash(body.password, 10)
+    const hashedPassword = await bcrypt.hash(body.password, 10);
 
     const user = await prisma.user.create({
       data: {
@@ -47,17 +48,17 @@ export async function POST(request: Request) {
         email: true,
         role: true,
       },
-    })
+    });
 
-    return NextResponse.json(user)
+    return NextResponse.json(user);
   } catch (error) {
-    return NextResponse.json({ error: "Error creating user" }, { status: 500 })
+    return NextResponse.json({ error: "Error creating user" }, { status: 500 });
   }
 }
 
 export async function PUT(request: Request) {
   try {
-    const body = await request.json()
+    const body = await request.json();
     const user = await prisma.user.update({
       where: { id: body.id },
       data: {
@@ -71,23 +72,22 @@ export async function PUT(request: Request) {
         email: true,
         role: true,
       },
-    })
-    return NextResponse.json(user)
+    });
+    return NextResponse.json(user);
   } catch (error) {
-    return NextResponse.json({ error: "Error updating user" }, { status: 500 })
+    return NextResponse.json({ error: "Error updating user" }, { status: 500 });
   }
 }
 
 export async function DELETE(request: Request) {
   try {
-    const { searchParams } = new URL(request.url)
-    const id = searchParams.get("id")
+    const { searchParams } = new URL(request.url);
+    const id = searchParams.get("id");
     await prisma.user.delete({
       where: { id: Number(id) },
-    })
-    return NextResponse.json({ success: true })
+    });
+    return NextResponse.json({ success: true });
   } catch (error) {
-    return NextResponse.json({ error: "Error deleting user" }, { status: 500 })
+    return NextResponse.json({ error: "Error deleting user" }, { status: 500 });
   }
 }
-
