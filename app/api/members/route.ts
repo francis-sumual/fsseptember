@@ -6,16 +6,35 @@ export async function GET(request: Request) {
     const { searchParams } = new URL(request.url);
     const groupId = searchParams.get("groupId");
 
-    const query = groupId ? { where: { groupId: Number(groupId) } } : {};
+    // const query = groupId ? { where: { groupId: Number(groupId) } } : {};
 
-    const members = await prisma.member.findMany({
-      ...query,
-      include: {
-        group: true,
-      },
-    });
+    // const members = await prisma.member.findMany({
+    //   ...query,
+    //   include: {
+    //     group: true,
+    //   },
+    // });
+    if (groupId) {
+      const members = await prisma.member.findMany({
+        where: {
+          groupId: Number(groupId),
+        },
+        include: {
+          group: true,
+        },
+      });
+      return NextResponse.json(members);
+    }
+    if (!groupId) {
+      const members = await prisma.member.findMany({
+        include: {
+          group: true,
+        },
+      });
+      return NextResponse.json(members);
+    }
 
-    return NextResponse.json(members);
+    // return NextResponse.json(members);
   } catch (error) {
     console.error("Error fetching members:", error);
     return NextResponse.json({ error: "Error fetching members" }, { status: 500 });
