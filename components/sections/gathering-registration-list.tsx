@@ -113,7 +113,7 @@ export function GatheringRegistrationList() {
       setIsLoading(true);
       setError("");
 
-      const response = await fetch("/api/registrations");
+      const response = await fetch("/api/registrations/active");
       if (!response.ok) throw new Error("Failed to fetch registrations");
       const data: Registration[] = await response.json();
 
